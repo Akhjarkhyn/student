@@ -41,7 +41,7 @@ public class TeacherFrame extends javax.swing.JFrame {
         return objectMapper.treeToValue(node, clazz);
     }
     
-    ImageIcon img = new ImageIcon("D:\\HICHEEL\\programming\\Data structure and algorithm\\advanced programming\\istudent-main\\istudent-main\\src\\main\\java\\images\\temp.jpg");
+    ImageIcon img = new ImageIcon("D:\\must\\student\\src\\main\\java\\images\\temp.png");
     Teacher t = new Teacher();
     public TeacherFrame(String ID) {
         t = TeacherDB.get(ID);

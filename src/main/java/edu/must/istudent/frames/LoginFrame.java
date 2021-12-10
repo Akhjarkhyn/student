@@ -257,8 +257,8 @@ public class LoginFrame extends javax.swing.JFrame {
             } else {
                 txtStatus.setText(str);
             }
-        } else if (selectedText.toLowerCase().equals("admin")) {
-            
+        } else if (selectedText.toLowerCase().equals("administrator")) {
+            txtStatus.setText("Coming soon");
         }
     }//GEN-LAST:event_bLoginActionPerformed
 

@@ -5,7 +5,6 @@
  */
 package edu.must.istudent.entity;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import java.sql.Date;
 
 /**

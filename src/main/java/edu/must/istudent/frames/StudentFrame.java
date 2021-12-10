@@ -255,7 +255,7 @@ public class StudentFrame extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Teacher");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cs2546", "cs2547" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "F.CS203", "F.IT205" }));
 
         enrollStatusText.setForeground(new java.awt.Color(0, 153, 0));
         enrollStatusText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
