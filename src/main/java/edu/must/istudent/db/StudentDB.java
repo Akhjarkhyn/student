@@ -74,6 +74,29 @@ public class StudentDB {
         return ret;
     }
 
+    public static Boolean changePassword(String newpass, String studentCode) {
+        Boolean ret = false;
+        String sql = "UPDATE student SET password = ? WHERE Student_code = ?";
+        System.out.println(sql);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        conn = DB.getConnection();
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, newpass);
+            ps.setString(2, studentCode);
+            ps.executeUpdate();
+            ret = true;
+        } catch (SQLException ex) {
+            System.out.println("Exception populate| " + ex.getMessage());
+        } finally {
+            DB.closeConnection(conn);
+        }
+        return ret;
+    }
+
     public static void test() {
         String sql = "Select * from student where Last_name='Gantumur'";
         Connection conn = null;

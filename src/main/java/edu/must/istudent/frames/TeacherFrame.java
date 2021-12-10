@@ -111,8 +111,6 @@ public class TeacherFrame extends javax.swing.JFrame {
         Refresh = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         placeOrder = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -403,7 +401,7 @@ public class TeacherFrame extends javax.swing.JFrame {
         });
 
         txtStatus1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        txtStatus1.setForeground(new java.awt.Color(255, 193, 71));
+        txtStatus1.setForeground(new java.awt.Color(0, 153, 0));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -538,7 +536,7 @@ public class TeacherFrame extends javax.swing.JFrame {
         });
 
         txtStatus.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        txtStatus.setForeground(new java.awt.Color(255, 193, 71));
+        txtStatus.setForeground(new java.awt.Color(0, 153, 0));
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         jLabel5.setText("Student score :");
@@ -699,32 +697,6 @@ public class TeacherFrame extends javax.swing.JFrame {
         );
 
         listTab.addTab("Score list", tablePanel);
-
-        jButton3.setText("test");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addComponent(jButton3)
-                .addContainerGap(296, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(jButton3)
-                .addContainerGap(219, Short.MAX_VALUE))
-        );
-
-        listTab.addTab("test", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -909,28 +881,6 @@ public class TeacherFrame extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_placeOrderActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-            
-        
-        String str = TeacherDB.getJson();
-        String lbl = "";
-        System.out.println(str);
-        
-        try {
-            JsonNode json = parse(str);
-            for(int i=0;i<json.size();i++){
-                JsonNode node = json.get(i);
-                lbl = lbl + "\n" + node.get("code").asText();
-            }
-                
-        System.out.println(lbl);   
-            
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton3ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Refresh;
@@ -941,7 +891,6 @@ public class TeacherFrame extends javax.swing.JFrame {
     public javax.swing.JPanel imagePanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -956,7 +905,6 @@ public class TeacherFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
