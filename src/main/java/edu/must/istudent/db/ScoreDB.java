@@ -20,10 +20,12 @@ public class ScoreDB {
     
     public static Object[][] getScoreList(String subject_id,String order){
         
+        
+        
         int n = getRow(subject_id);
         Object[][] list = new Object[n][3];
         
-        String sql = "select * from score where subject_code = ? Order by " + order;
+        String sql = "select * from score where subject_code in("+ subject_id +") Order by " + order;
           
         System.out.println(sql);
         Connection conn = null;
@@ -33,7 +35,6 @@ public class ScoreDB {
         
         try {
             ps = conn.prepareStatement(sql);
-            ps.setString(1, subject_id);
             rs = ps.executeQuery();
             int index = 0;
             while (rs.next()) {
@@ -53,7 +54,7 @@ public class ScoreDB {
     public static int getRow(String subject_id) {
         
         int ret = 0;
-        String sql = "select count(*) from score where subject_code = ?";
+        String sql = "select count(*) from score where subject_code in (" + subject_id + ")";
         System.out.println(sql);
         Connection conn = null;
         PreparedStatement ps = null;
@@ -62,7 +63,6 @@ public class ScoreDB {
         conn = DB.getConnection();
         try {
             ps = conn.prepareStatement(sql);
-            ps.setString(1, subject_id);
              rs = ps.executeQuery();
             while (rs.next()) {
                 ret = rs.getInt("count(*)");

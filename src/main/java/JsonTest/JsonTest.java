@@ -58,5 +58,11 @@ public class JsonTest {
         
         StudentSubject studentSubject = fromJson(node1, StudentSubject.class);
         System.out.println(studentSubject);
+        
+        System.out.println(node.size());
+        
+        
+    
+    
     }
 }

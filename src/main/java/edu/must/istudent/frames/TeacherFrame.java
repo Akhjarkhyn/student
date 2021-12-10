@@ -5,12 +5,20 @@
  */
 package edu.must.istudent.frames;
 
+import JsonTest.JsonTest;
+import static JsonTest.JsonTest.parse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.must.istudent.db.ScoreDB;
 import edu.must.istudent.db.TeacherDB;
 import edu.must.istudent.entity.Teacher;
-import java.awt.Container;
-import javax.swing.*;
+import javax.swing.*; 
 import java.util.Date;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  *
@@ -18,6 +26,21 @@ import java.util.Date;
  */
 public class TeacherFrame extends javax.swing.JFrame {
 
+    final static ObjectMapper objectMapper = getDefaultObjectMapper();
+    
+    private static ObjectMapper getDefaultObjectMapper() {
+        ObjectMapper defaultObjectMapper = new ObjectMapper();
+        return defaultObjectMapper;
+    }
+    
+    public static JsonNode parse(String src) throws JsonProcessingException {
+        return objectMapper.readTree(src);
+    }
+    
+    public static <A> A fromJson(JsonNode node, Class<A> clazz) throws IllegalArgumentException, JsonProcessingException {
+        return objectMapper.treeToValue(node, clazz);
+    }
+    
     ImageIcon img = new ImageIcon("D:\\HICHEEL\\programming\\Data structure and algorithm\\advanced programming\\istudent-main\\istudent-main\\src\\main\\java\\images\\temp.jpg");
     Teacher t = new Teacher();
     public TeacherFrame(String ID) {
@@ -35,6 +58,9 @@ public class TeacherFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         listTab = new javax.swing.JTabbedPane();
         resume = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -52,6 +78,8 @@ public class TeacherFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         logOut = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         passwordSetting = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         newPasswordLabel = new javax.swing.JLabel();
@@ -83,6 +111,26 @@ public class TeacherFrame extends javax.swing.JFrame {
         Refresh = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         placeOrder = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(241, 244, 248));
@@ -201,10 +249,9 @@ public class TeacherFrame extends javax.swing.JFrame {
         imagePanel.setLayout(imagePanelLayout);
         imagePanelLayout.setHorizontalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, imagePanelLayout.createSequentialGroup()
+            .addGroup(imagePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
         );
         imagePanelLayout.setVerticalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,10 +274,33 @@ public class TeacherFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Teaching subjects :");
+
+        String jsonstr = TeacherDB.getJson();
+        String lbl = "";
+
+        try {
+            JsonNode json = parse(jsonstr);
+            for(int i=0;i<json.size();i++){
+                JsonNode node = json.get(i);
+                lbl = lbl + node.get("code").asText() + ", ";
+            }
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jLabel10.setText(lbl);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(273, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logOut, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,8 +308,12 @@ public class TeacherFrame extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(86, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(logOut, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -268,7 +342,7 @@ public class TeacherFrame extends javax.swing.JFrame {
                     .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60))
+                .addGap(105, 105, 105))
         );
 
         listTab.addTab("Resume", resume);
@@ -384,7 +458,7 @@ public class TeacherFrame extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(changePassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(resetField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout passwordSettingLayout = new javax.swing.GroupLayout(passwordSetting);
@@ -537,16 +611,30 @@ public class TeacherFrame extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(241, 244, 248));
 
-        String[] str = new String [] {
-            "Student code", "Subject code", "Score"
-        };
-        Object[][] obj = ScoreDB.getScoreList(t.getTeacher_id(),"student_code");
-        scoreTable.setBackground(new java.awt.Color(241, 244, 248));
-        scoreTable.setModel(new javax.swing.table.DefaultTableModel(
-            obj,
-            str
-        ));
-        jScrollPane1.setViewportView(scoreTable);
+        try {
+            String[] str = new String [] {
+                "Student code", "Subject code", "Score"
+            };
+            String subjectJson = TeacherDB.getJson();
+            String subjectList = "";
+            JsonNode json = parse(subjectJson);
+            for(int i=0;i<json.size();i++){
+                JsonNode node = json.get(i);
+                subjectList = subjectList + "'" + node.get("code").asText() + "'";
+                if(i!=json.size()-1)
+                subjectList = subjectList + ",";
+            }
+            System.out.println(subjectList);
+            Object[][] obj = ScoreDB.getScoreList(subjectList,"student_code");
+            scoreTable.setBackground(new java.awt.Color(241, 244, 248));
+            scoreTable.setModel(new javax.swing.table.DefaultTableModel(
+                obj,
+                str
+            ));
+            jScrollPane1.setViewportView(scoreTable);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Refresh.setBackground(new java.awt.Color(241, 244, 248));
         Refresh.setFont(new java.awt.Font("Montserrat", 1, 12)); // NOI18N
@@ -591,11 +679,12 @@ public class TeacherFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(placeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(placeOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -610,6 +699,32 @@ public class TeacherFrame extends javax.swing.JFrame {
         );
 
         listTab.addTab("Score list", tablePanel);
+
+        jButton3.setText("test");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addComponent(jButton3)
+                .addContainerGap(296, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(179, 179, 179)
+                .addComponent(jButton3)
+                .addContainerGap(219, Short.MAX_VALUE))
+        );
+
+        listTab.addTab("test", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -728,37 +843,93 @@ public class TeacherFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logOutActionPerformed
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
-        // TODO add your handling code here:
-    String order = (String)placeOrder.getSelectedItem();
-    if(order.equals("score")) order = order + " DESC";
-    String[] str = new String [] {
-        "Student code", "Subject code", "Score"
-    };
-    Object[][] obj = ScoreDB.getScoreList(t.getTeacher_id(),order);
-    scoreTable.setModel(new javax.swing.table.DefaultTableModel(
-        obj,
-        str
-    ));
+ 
+        try {
+            String order = (String)placeOrder.getSelectedItem();
+            if(order.equals("score")) order = order + " DESC";
+            
+            String[] str = new String [] {
+                "Student code", "Subject code", "Score"
+            };
+            String subjectJson = TeacherDB.getJson();
+            String subjectList = "";
+            JsonNode json = parse(subjectJson);
+            for(int i=0;i<json.size();i++){
+                JsonNode node = json.get(i);
+                subjectList = subjectList + "'" + node.get("code").asText() + "'";
+                if(i!=json.size()-1)
+                    subjectList = subjectList + ",";
+            }
+            System.out.println(subjectList);
+            Object[][] obj = ScoreDB.getScoreList(subjectList,order);
+            scoreTable.setBackground(new java.awt.Color(241, 244, 248));
 
-    jScrollPane1.setViewportView(scoreTable);   
+            scoreTable.setModel(new javax.swing.table.DefaultTableModel(
+                obj,
+                str
+            ));
+
+            jScrollPane1.setViewportView(scoreTable);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_RefreshActionPerformed
 
     private void placeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderActionPerformed
         // TODO add your handling code here:
-        String order = (String)placeOrder.getSelectedItem();
-        if(order.equals("score")) order = order + " DESC";
-        String[] str = new String [] {
-        "Student code", "Subject code", "Score"
-        };
-        
-        Object[][] obj = ScoreDB.getScoreList(t.getTeacher_id(),order);
-        scoreTable.setModel(new javax.swing.table.DefaultTableModel(
-            obj,
-            str
-        ));
+         try {
+            String order = (String)placeOrder.getSelectedItem();
+            if(order.equals("score")) order = order + " DESC";
+            
+            String[] str = new String [] {
+                "Student code", "Subject code", "Score"
+            };
+            String subjectJson = TeacherDB.getJson();
+            String subjectList = "";
+            JsonNode json = parse(subjectJson);
+            for(int i=0;i<json.size();i++){
+                JsonNode node = json.get(i);
+                subjectList = subjectList + "'" + node.get("code").asText() + "'";
+                if(i!=json.size()-1)
+                    subjectList = subjectList + ",";
+            }
+            System.out.println(subjectList);
+            Object[][] obj = ScoreDB.getScoreList(subjectList,order);
+            scoreTable.setBackground(new java.awt.Color(241, 244, 248));
 
-        jScrollPane1.setViewportView(scoreTable); 
+            scoreTable.setModel(new javax.swing.table.DefaultTableModel(
+                obj,
+                str
+            ));
+
+            jScrollPane1.setViewportView(scoreTable);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }//GEN-LAST:event_placeOrderActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+            
+        
+        String str = TeacherDB.getJson();
+        String lbl = "";
+        System.out.println(str);
+        
+        try {
+            JsonNode json = parse(str);
+            for(int i=0;i<json.size();i++){
+                JsonNode node = json.get(i);
+                lbl = lbl + "\n" + node.get("code").asText();
+            }
+                
+        System.out.println(lbl);   
+            
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(TeacherFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -770,21 +941,28 @@ public class TeacherFrame extends javax.swing.JFrame {
     public javax.swing.JPanel imagePanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane listTab;
     private javax.swing.JButton logOut;
     private javax.swing.JLabel nameLabel;

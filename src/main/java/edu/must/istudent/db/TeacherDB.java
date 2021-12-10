@@ -114,5 +114,29 @@ public class TeacherDB {
         return ret;
     }
     
+        public static String getJson() {        
+        String sql = "SELECT subject FROM teacher WHERE teacher_id = ?";
+        System.out.println(sql);
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+ 
+        conn = DB.getConnection();
+        
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "F.IT205");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+               sql = rs.getString("subject");
+            }    
+        } catch (SQLException ex) {
+            System.out.println("Exception validate| " + ex.getMessage());
+        } finally {
+            DB.closeConnection(conn);
+        }
+        
+        return sql;
+    }
 
 }
